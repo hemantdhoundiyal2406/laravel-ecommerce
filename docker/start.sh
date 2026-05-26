@@ -6,6 +6,12 @@ export PORT="${PORT:-10000}"
 sed -ri "s/^Listen .*/Listen ${PORT}/" /etc/apache2/ports.conf
 sed -ri "s/<VirtualHost \*:[0-9]+>/<VirtualHost *:${PORT}>/" /etc/apache2/sites-available/000-default.conf
 
+if [ "${DB_CONNECTION:-}" = "sqlite" ]; then
+  mkdir -p "$(dirname "${DB_DATABASE}")"
+  touch "${DB_DATABASE}"
+  chown www-data:www-data "${DB_DATABASE}"
+fi
+
 php artisan optimize:clear
 php artisan storage:link || true
 php artisan migrate --force

@@ -38,6 +38,7 @@ RUN apt-get update \
         bcmath \
         pdo_mysql \
         pdo_pgsql \
+        pdo_sqlite \
         zip \
     && a2enmod rewrite headers \
     && sed -ri -e "s!/var/www/html!${APACHE_DOCUMENT_ROOT}!g" /etc/apache2/sites-available/*.conf \
@@ -50,8 +51,8 @@ COPY docker/start.sh /usr/local/bin/start-render
 
 RUN chmod +x /usr/local/bin/start-render \
     && mkdir -p storage/app/public storage/framework/cache storage/framework/sessions storage/framework/views storage/logs bootstrap/cache \
-    && chown -R www-data:www-data storage bootstrap/cache \
-    && chmod -R ug+rwx storage bootstrap/cache
+    && chown -R www-data:www-data storage bootstrap/cache database \
+    && chmod -R ug+rwx storage bootstrap/cache database
 
 EXPOSE 10000
 

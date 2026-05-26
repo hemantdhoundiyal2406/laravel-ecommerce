@@ -1,6 +1,6 @@
 # Deploy UrbanCart on Render
 
-This project is prepared for Render using Docker, a Render Blueprint, and a managed PostgreSQL database.
+This project is prepared for Render using Docker and a Render Blueprint. The default Blueprint uses SQLite so it can deploy even when the Render account has already used its free PostgreSQL database.
 
 ## 1. Generate Production App Key
 
@@ -36,7 +36,6 @@ https://dashboard.render.com/blueprint/new
 Select the pushed repository. Render will read `render.yaml` and create:
 
 - Docker web service: `laravel-ecommerce-hd2406`
-- PostgreSQL database: `urbancart-db`
 
 ## 4. Fill Render Environment Variables
 
@@ -63,5 +62,6 @@ Click **Apply** in Render. The container startup script will:
 ## Notes
 
 - Uploaded images use Render container storage unless you configure S3-compatible storage. For a real production store, use S3/R2/Spaces and set `FILESYSTEM_DISK=s3`.
+- SQLite data is stored inside the service container. For a real production store, upgrade to PostgreSQL or connect an existing database.
 - Online payment is still a placeholder. COD works.
 - After deployment, change `APP_URL` to your custom domain if you add one.

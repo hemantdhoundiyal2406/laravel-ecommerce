@@ -23,13 +23,9 @@ services:
       - key: LOG_LEVEL
         value: info
       - key: DB_CONNECTION
-        value: pgsql
-      - key: DB_URL
-        fromDatabase:
-          name: urbancart-db
-          property: connectionString
-      - key: DB_SSLMODE
-        value: require
+        value: sqlite
+      - key: DB_DATABASE
+        value: /var/www/html/database/database.sqlite
       - key: SESSION_DRIVER
         value: database
       - key: CACHE_STORE
@@ -48,11 +44,3 @@ services:
         sync: false
       - key: SEED_ADMIN_PASSWORD
         sync: false
-
-databases:
-  - name: urbancart-db
-    databaseName: urbancart
-    user: urbancart
-    plan: free
-    postgresMajorVersion: "16"
-    ipAllowList: []
