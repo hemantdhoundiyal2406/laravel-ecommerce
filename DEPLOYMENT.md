@@ -35,7 +35,7 @@ https://dashboard.render.com/blueprint/new
 
 Select the pushed repository. Render will read `render.yaml` and create:
 
-- Docker web service: `urbancart`
+- Docker web service: `laravel-ecommerce-hd2406`
 - PostgreSQL database: `urbancart-db`
 
 ## 4. Fill Render Environment Variables
@@ -43,7 +43,7 @@ Select the pushed repository. Render will read `render.yaml` and create:
 Render will ask for these because they are marked as secrets or account-specific values:
 
 - `APP_KEY`: output from `php artisan key:generate --show`
-- `APP_URL`: your Render URL, for example `https://urbancart.onrender.com`
+- `APP_URL`: your Render URL, for example `https://laravel-ecommerce-hd2406.onrender.com`
 - `MAIL_FROM_ADDRESS`: your store email address
 - `SEED_ADMIN_EMAIL`: your admin login email
 - `SEED_ADMIN_PASSWORD`: a strong admin password

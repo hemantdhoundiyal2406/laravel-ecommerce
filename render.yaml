@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: urbancart
+    name: laravel-ecommerce-hd2406
     runtime: docker
     plan: free
     dockerfilePath: ./Dockerfile
