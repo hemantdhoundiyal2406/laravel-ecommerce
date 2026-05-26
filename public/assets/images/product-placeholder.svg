@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="640" viewBox="0 0 640 640" role="img" aria-label="Product image placeholder">
+  <rect width="640" height="640" fill="#f1f5f9"/>
+  <rect x="120" y="160" width="400" height="320" rx="24" fill="#ffffff" stroke="#cbd5e1" stroke-width="8"/>
+  <circle cx="245" cy="270" r="45" fill="#dbeafe"/>
+  <path d="M150 442l122-128 76 80 55-58 87 106H150z" fill="#bbf7d0"/>
+  <text x="320" y="535" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#64748b">UrbanCart</text>
+</svg>
