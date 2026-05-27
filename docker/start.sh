@@ -12,10 +12,10 @@ if [ "${DB_CONNECTION:-}" = "sqlite" ]; then
   chown www-data:www-data "${DB_DATABASE}"
 fi
 
-php artisan optimize:clear
 php artisan storage:link || true
 php artisan migrate --force
 php artisan deploy:seed-if-empty
+php artisan optimize:clear
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
