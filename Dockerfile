@@ -32,6 +32,7 @@ WORKDIR /var/www/html
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         libpq-dev \
+        libsqlite3-dev \
         libzip-dev \
         unzip \
     && docker-php-ext-install \
