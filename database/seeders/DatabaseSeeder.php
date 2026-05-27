@@ -19,18 +19,24 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $adminEmail = env('SEED_ADMIN_EMAIL', 'admin@example.com');
-        $adminPassword = env('SEED_ADMIN_PASSWORD', 'password');
+        $adminPassword = env('SEED_ADMIN_PASSWORD');
 
-        $admin = User::updateOrCreate(
-            ['email' => $adminEmail],
-            [
-                'name' => 'Store Admin',
-                'phone' => '9999999999',
-                'role' => 'admin',
-                'status' => 'active',
-                'password' => Hash::make($adminPassword),
-            ]
-        );
+        if (blank($adminPassword) && ! app()->environment('production')) {
+            $adminPassword = 'password';
+        }
+
+        if (filled($adminPassword)) {
+            User::updateOrCreate(
+                ['email' => $adminEmail],
+                [
+                    'name' => 'Store Admin',
+                    'phone' => '9999999999',
+                    'role' => 'admin',
+                    'status' => 'active',
+                    'password' => Hash::make($adminPassword),
+                ]
+            );
+        }
 
         $customer = User::updateOrCreate(
             ['email' => 'customer@example.com'],

@@ -10,16 +10,18 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Artisan::command('deploy:seed-if-empty', function () {
-    if (User::query()->exists() || Product::query()->exists()) {
+    $hasAdmin = User::query()->where('role', 'admin')->exists();
+    $hasCatalog = Product::query()->exists();
+    $hasAdminPassword = filled(env('SEED_ADMIN_PASSWORD'));
+
+    if ($hasCatalog && ($hasAdmin || ! $hasAdminPassword)) {
         $this->info('Seed skipped because application data already exists.');
 
         return self::SUCCESS;
     }
 
-    if (app()->environment('production') && blank(env('SEED_ADMIN_PASSWORD'))) {
-        $this->error('SEED_ADMIN_PASSWORD is required before seeding production data.');
-
-        return self::FAILURE;
+    if (app()->environment('production') && ! $hasAdminPassword) {
+        $this->warn('SEED_ADMIN_PASSWORD is not set; seeding public demo data without an admin account.');
     }
 
     $this->call('db:seed', ['--force' => true]);
