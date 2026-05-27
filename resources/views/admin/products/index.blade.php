@@ -17,7 +17,7 @@
                 <tbody>
                 @forelse($products as $product)
                     <tr>
-                        <td><img class="thumb" src="{{ $product->image_url }}" alt="{{ $product->name }}"></td>
+                        <td><img class="thumb" src="{{ $product->image_url }}" alt="{{ $product->image_alt }}"></td>
                         <td><strong>{{ $product->name }}</strong><div class="small text-muted">{{ $product->sku }}</div></td>
                         <td>{{ $product->category?->name }}<div class="small text-muted">{{ $product->brand?->name }}</div></td>
                         <td>Rs. {{ number_format($product->price, 2) }}</td>

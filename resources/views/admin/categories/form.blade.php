@@ -15,6 +15,10 @@
                 <div class="col-md-6"><label class="form-label">Image upload</label><input type="file" name="image" class="form-control" accept="image/*"></div>
                 <div class="col-md-6"><label class="form-label">Image URL</label><input type="url" name="image_url" class="form-control" value="{{ old('image_url', str_starts_with($category->image ?? '', 'http') ? $category->image : '') }}"></div>
                 <div class="col-12"><label class="form-label">Description</label><textarea name="description" class="form-control" rows="4">{{ old('description', $category->description) }}</textarea></div>
+                <div class="col-12"><hr><h2 class="h5">SEO</h2></div>
+                <div class="col-md-6"><label class="form-label">Meta title</label><input name="seo_title" class="form-control" value="{{ old('seo_title', $category->seo_title) }}" maxlength="190"></div>
+                <div class="col-md-6"><label class="form-label">Meta keywords</label><input name="seo_keywords" class="form-control" value="{{ old('seo_keywords', $category->seo_keywords) }}" maxlength="500"></div>
+                <div class="col-12"><label class="form-label">Meta description</label><textarea name="seo_description" class="form-control" rows="3" maxlength="500">{{ old('seo_description', $category->seo_description) }}</textarea></div>
                 <div class="col-12"><label class="form-check"><input class="form-check-input" type="checkbox" name="is_active" value="1" @checked(old('is_active', $category->is_active ?? true))> <span class="form-check-label">Active</span></label></div>
                 <div class="col-12 d-flex gap-2"><button class="btn btn-success" type="submit">Save Category</button><a href="{{ route('admin.categories.index') }}" class="btn btn-outline-secondary">Cancel</a></div>
             </div>

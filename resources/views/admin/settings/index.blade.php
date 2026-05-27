@@ -31,6 +31,27 @@
                 <div class="col-md-3"><label class="form-label">SMTP username</label><input name="smtp_username" class="form-control" value="{{ old('smtp_username', $settings['smtp_username'] ?? '') }}"></div>
                 <div class="col-md-3"><label class="form-label">Encryption</label><input name="smtp_encryption" class="form-control" value="{{ old('smtp_encryption', $settings['smtp_encryption'] ?? 'tls') }}"></div>
             </div>
+            <hr>
+            <h2 class="h5">SEO meta for pages</h2>
+            <p class="text-muted small">Use these fields to control browser title, meta description, meta keywords, Open Graph, and Twitter preview text for public pages.</p>
+            <div class="accordion" id="seoSettings">
+                @foreach(\App\Models\Setting::seoFields() as $key => $label)
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button @if(!$loop->first) collapsed @endif" type="button" data-bs-toggle="collapse" data-bs-target="#seo{{ $loop->index }}">{{ $label }}</button>
+                        </h3>
+                        <div id="seo{{ $loop->index }}" class="accordion-collapse collapse @if($loop->first) show @endif" data-bs-parent="#seoSettings">
+                            <div class="accordion-body">
+                                <div class="row g-3">
+                                    <div class="col-md-6"><label class="form-label">Meta title</label><input name="{{ $key }}_title" class="form-control" value="{{ old($key.'_title', $settings[$key.'_title'] ?? '') }}" maxlength="190"></div>
+                                    <div class="col-md-6"><label class="form-label">Meta keywords</label><input name="{{ $key }}_keywords" class="form-control" value="{{ old($key.'_keywords', $settings[$key.'_keywords'] ?? '') }}" maxlength="500"></div>
+                                    <div class="col-12"><label class="form-label">Meta description</label><textarea name="{{ $key }}_description" class="form-control" rows="3" maxlength="500">{{ old($key.'_description', $settings[$key.'_description'] ?? '') }}</textarea></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
             <button class="btn btn-success mt-4">Save Settings</button>
         </form>
     </div>

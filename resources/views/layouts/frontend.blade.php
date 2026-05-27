@@ -2,10 +2,17 @@
     use App\Models\Category;
     use App\Models\Setting;
     use App\Support\CartService;
+    use Illuminate\Support\Str;
 
     $siteName = Setting::getValue('site_name', 'UrbanCart');
     $navCategories = Category::where('is_active', true)->orderBy('name')->take(8)->get();
     $cartCount = app(CartService::class)->count();
+    $pageTitle = trim($__env->yieldContent('title', Setting::getValue('seo_default_title', $siteName)));
+    $metaTitle = trim($__env->yieldContent('meta_title', $pageTitle));
+    $metaDescription = Str::limit(strip_tags(trim($__env->yieldContent('meta_description', Setting::getValue('seo_default_description', Setting::getValue('footer_text', 'Modern Laravel e-commerce store'))))), 160, '');
+    $metaKeywords = trim($__env->yieldContent('meta_keywords', Setting::getValue('seo_default_keywords', '')));
+    $metaImage = trim($__env->yieldContent('meta_image', asset('assets/images/product-placeholder.svg')));
+    $canonicalUrl = trim($__env->yieldContent('canonical', url()->current()));
 @endphp
 <!doctype html>
 <html lang="en">
@@ -13,8 +20,22 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="description" content="@yield('meta_description', Setting::getValue('footer_text', 'Modern Laravel e-commerce store'))">
-    <title>@yield('title', $siteName)</title>
+    <meta name="description" content="{{ $metaDescription }}">
+    @if($metaKeywords)
+        <meta name="keywords" content="{{ $metaKeywords }}">
+    @endif
+    <link rel="canonical" href="{{ $canonicalUrl }}">
+    <meta property="og:site_name" content="{{ $siteName }}">
+    <meta property="og:title" content="{{ $metaTitle }}">
+    <meta property="og:description" content="{{ $metaDescription }}">
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:url" content="{{ $canonicalUrl }}">
+    <meta property="og:image" content="{{ $metaImage }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $metaTitle }}">
+    <meta name="twitter:description" content="{{ $metaDescription }}">
+    <meta name="twitter:image" content="{{ $metaImage }}">
+    <title>{{ $pageTitle }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">

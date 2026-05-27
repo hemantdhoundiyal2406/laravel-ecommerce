@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
+use App\Support\Seo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -27,7 +28,7 @@ class BrandController extends Controller
         $data['is_active'] = $request->boolean('is_active');
 
         if ($request->hasFile('logo')) {
-            $data['logo'] = $request->file('logo')->store('brands', 'public');
+            $data['logo'] = Seo::storeImage($request->file('logo'), 'brands');
         }
 
         Brand::create($data);
@@ -50,7 +51,7 @@ class BrandController extends Controller
             if ($brand->logo) {
                 Storage::disk('public')->delete($brand->logo);
             }
-            $data['logo'] = $request->file('logo')->store('brands', 'public');
+            $data['logo'] = Seo::storeImage($request->file('logo'), 'brands');
         }
 
         $brand->update($data);
@@ -71,6 +72,9 @@ class BrandController extends Controller
             'name' => ['required', 'string', 'max:160'],
             'slug' => ['nullable', 'string', 'max:180', 'unique:brands,slug,'.($ignore ?: 'NULL')],
             'logo' => ['nullable', 'image', 'max:2048'],
+            'seo_title' => ['nullable', 'string', 'max:190'],
+            'seo_description' => ['nullable', 'string', 'max:500'],
+            'seo_keywords' => ['nullable', 'string', 'max:500'],
         ]);
     }
 }

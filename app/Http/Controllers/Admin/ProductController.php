@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Support\Seo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -148,7 +149,7 @@ class ProductController extends Controller
         $sort = 1;
         foreach ($request->file('images', []) as $file) {
             $product->images()->create([
-                'image_path' => $file->store('products', 'public'),
+                'image_path' => Seo::storeImage($file, 'products'),
                 'is_primary' => $sort === 1,
                 'sort_order' => $sort++,
             ]);

@@ -56,6 +56,17 @@ class DatabaseSeeder extends Seeder
             'instagram_url' => 'https://instagram.com',
             'x_url' => 'https://x.com',
             'admin_email' => $adminEmail,
+            'seo_default_title' => 'UrbanCart - Premium Online Shopping Store',
+            'seo_default_description' => 'UrbanCart is a modern online shopping store for fashion, electronics, home, beauty, and sports products.',
+            'seo_default_keywords' => 'UrbanCart, online shopping, ecommerce store',
+            'seo_home_title' => 'UrbanCart - Premium E-commerce Store',
+            'seo_home_description' => 'Shop premium fashion, electronics, home, beauty, and sports products online at UrbanCart.',
+            'seo_home_keywords' => 'online shopping, ecommerce, fashion, electronics, home products',
+            'seo_products_title' => 'Shop Products Online - UrbanCart',
+            'seo_products_description' => 'Browse latest products, compare prices, filter by category and brand, and shop online at UrbanCart.',
+            'seo_products_keywords' => 'shop products online, UrbanCart products, ecommerce catalog',
+            'seo_contact_title' => 'Contact UrbanCart Support',
+            'seo_contact_description' => 'Contact UrbanCart for order, shipping, product, and customer support questions.',
         ];
 
         foreach ($settings as $key => $value) {
@@ -75,6 +86,9 @@ class DatabaseSeeder extends Seeder
                     'name' => $category['name'],
                     'image' => $category['image'],
                     'description' => 'Curated '.$category['name'].' products for modern shoppers.',
+                    'seo_title' => $category['name'].' Products Online - UrbanCart',
+                    'seo_description' => 'Shop curated '.$category['name'].' products online at UrbanCart with fast checkout and easy returns.',
+                    'seo_keywords' => strtolower($category['name']).', online shopping, UrbanCart',
                     'is_active' => true,
                     'sort_order' => $index + 1,
                 ]
@@ -87,6 +101,9 @@ class DatabaseSeeder extends Seeder
                 [
                     'name' => $name,
                     'logo' => null,
+                    'seo_title' => $name.' Products Online - UrbanCart',
+                    'seo_description' => 'Shop '.$name.' brand products online at UrbanCart.',
+                    'seo_keywords' => strtolower($name).', brand products, UrbanCart',
                     'is_active' => true,
                 ]
             );

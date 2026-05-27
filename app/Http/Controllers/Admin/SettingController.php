@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
+use App\Support\Seo;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller
 {
@@ -37,14 +37,14 @@ class SettingController extends Controller
             'smtp_encryption' => ['nullable', 'string', 'max:20'],
             'logo' => ['nullable', 'image', 'max:2048'],
             'favicon' => ['nullable', 'image', 'max:1024'],
-        ]);
+        ] + $this->seoRules());
 
         if ($request->hasFile('logo')) {
-            $data['logo'] = $request->file('logo')->store('settings', 'public');
+            $data['logo'] = Seo::storeImage($request->file('logo'), 'settings');
         }
 
         if ($request->hasFile('favicon')) {
-            $data['favicon'] = $request->file('favicon')->store('settings', 'public');
+            $data['favicon'] = Seo::storeImage($request->file('favicon'), 'settings');
         }
 
         foreach ($data as $key => $value) {
@@ -54,5 +54,18 @@ class SettingController extends Controller
         }
 
         return back()->with('success', 'Website settings updated.');
+    }
+
+    private function seoRules(): array
+    {
+        $rules = [];
+
+        foreach (array_keys(Setting::seoFields()) as $key) {
+            $rules[$key.'_title'] = ['nullable', 'string', 'max:190'];
+            $rules[$key.'_description'] = ['nullable', 'string', 'max:500'];
+            $rules[$key.'_keywords'] = ['nullable', 'string', 'max:500'];
+        }
+
+        return $rules;
     }
 }

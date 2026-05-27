@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\Seo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,7 +10,7 @@ class Brand extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'slug', 'logo', 'is_active'];
+    protected $fillable = ['name', 'slug', 'logo', 'seo_title', 'seo_description', 'seo_keywords', 'is_active'];
 
     protected $casts = [
         'is_active' => 'boolean',
@@ -18,5 +19,15 @@ class Brand extends Model
     public function products()
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function getLogoUrlAttribute(): string
+    {
+        return Seo::url($this->logo);
+    }
+
+    public function getLogoAltAttribute(): string
+    {
+        return Seo::imageAlt($this->logo, $this->name);
     }
 }

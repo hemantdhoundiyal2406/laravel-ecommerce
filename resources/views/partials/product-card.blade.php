@@ -1,6 +1,6 @@
 <div class="product-card h-100 overflow-hidden">
     <a href="{{ route('products.show', $product->slug) }}" class="d-block position-relative">
-        <img src="{{ $product->image_url }}" class="product-img" alt="{{ $product->name }}">
+        <img src="{{ $product->image_url }}" class="product-img" alt="{{ $product->image_alt }}">
         @if ($product->discount_percent)
             <span class="badge text-bg-warning position-absolute top-0 start-0 m-2">{{ $product->discount_percent }}% off</span>
         @endif

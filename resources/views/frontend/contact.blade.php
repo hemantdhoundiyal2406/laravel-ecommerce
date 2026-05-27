@@ -1,6 +1,8 @@
 @extends('layouts.frontend')
 
-@section('title', 'Contact Us - UrbanCart')
+@section('title', \App\Models\Setting::getValue('seo_contact_title', 'Contact Us - UrbanCart'))
+@section('meta_description', \App\Models\Setting::getValue('seo_contact_description', 'Contact UrbanCart for product, order, shipping, and support questions.'))
+@section('meta_keywords', \App\Models\Setting::getValue('seo_contact_keywords', 'contact UrbanCart, customer support, ecommerce support'))
 
 @section('content')
     <section class="container py-4 py-lg-5">

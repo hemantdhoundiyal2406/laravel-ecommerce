@@ -1,6 +1,8 @@
 @extends('layouts.frontend')
 
-@section('title', 'Checkout - UrbanCart')
+@section('title', \App\Models\Setting::getValue('seo_checkout_title', 'Checkout - UrbanCart'))
+@section('meta_description', \App\Models\Setting::getValue('seo_checkout_description', 'Complete your UrbanCart order with secure checkout.'))
+@section('meta_keywords', \App\Models\Setting::getValue('seo_checkout_keywords', 'checkout, ecommerce checkout, secure order'))
 
 @section('content')
     <section class="container py-4 py-lg-5">
@@ -78,7 +80,7 @@
                         <div class="d-grid gap-3 mb-3">
                             @foreach ($items as $item)
                                 <div class="d-flex gap-2">
-                                    <img src="{{ $item->product->image_url }}" width="54" height="54" class="rounded" style="object-fit:cover" alt="{{ $item->product->name }}">
+                                    <img src="{{ $item->product->image_url }}" width="54" height="54" class="rounded" style="object-fit:cover" alt="{{ $item->product->image_alt }}">
                                     <div class="flex-grow-1">
                                         <div class="small fw-bold">{{ $item->product->name }}</div>
                                         <div class="small text-muted">Qty {{ $item->quantity }} {{ $item->variant?->label }}</div>

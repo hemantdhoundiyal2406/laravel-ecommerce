@@ -1,6 +1,8 @@
 @extends('layouts.frontend')
 
-@section('title', 'Shopping Cart - UrbanCart')
+@section('title', \App\Models\Setting::getValue('seo_cart_title', 'Shopping Cart - UrbanCart'))
+@section('meta_description', \App\Models\Setting::getValue('seo_cart_description', 'Review your UrbanCart shopping cart before checkout.'))
+@section('meta_keywords', \App\Models\Setting::getValue('seo_cart_keywords', 'shopping cart, online cart, checkout'))
 
 @section('content')
     <section class="container py-4 py-lg-5">
@@ -40,7 +42,7 @@
                                     <tr>
                                         <td>
                                             <div class="d-flex gap-3 align-items-center">
-                                                <img src="{{ $item->product->image_url }}" class="rounded" width="72" height="72" style="object-fit:cover" alt="{{ $item->product->name }}">
+                                                <img src="{{ $item->product->image_url }}" class="rounded" width="72" height="72" style="object-fit:cover" alt="{{ $item->product->image_alt }}">
                                                 <div>
                                                     <a class="fw-bold text-dark" href="{{ route('products.show', $item->product->slug) }}">{{ $item->product->name }}</a>
                                                     <div class="small text-muted">{{ $item->variant?->label }}</div>

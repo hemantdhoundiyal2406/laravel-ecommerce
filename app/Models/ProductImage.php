@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\Seo;
 use Illuminate\Database\Eloquent\Model;
 
 class ProductImage extends Model
@@ -15,5 +16,10 @@ class ProductImage extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function getAltAttribute(): string
+    {
+        return Seo::imageAlt($this->image_path, $this->product?->name);
     }
 }

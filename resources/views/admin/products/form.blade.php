@@ -45,7 +45,7 @@
                     <label class="form-label">Image URLs, one per line</label>
                     <textarea name="image_urls" class="form-control" rows="4">{{ old('image_urls') }}</textarea>
                     @if($product->exists)
-                        <div class="d-flex flex-wrap gap-2 mt-3">@foreach($product->images as $image)<img class="thumb" src="{{ str_starts_with($image->image_path, 'http') ? $image->image_path : asset('storage/'.$image->image_path) }}" alt="Product image">@endforeach</div>
+                        <div class="d-flex flex-wrap gap-2 mt-3">@foreach($product->images as $image)<img class="thumb" src="{{ \App\Support\Seo::url($image->image_path) }}" alt="{{ $image->alt }}">@endforeach</div>
                     @endif
                 </div>
                 <div class="admin-card p-4 mb-4">

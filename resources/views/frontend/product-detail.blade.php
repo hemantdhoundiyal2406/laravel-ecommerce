@@ -1,7 +1,10 @@
 @extends('layouts.frontend')
 
-@section('title', ($product->seo_title ?: $product->name).' - UrbanCart')
+@section('title', $product->seo_title ?: $product->name.' - UrbanCart')
 @section('meta_description', $product->seo_description ?: $product->short_description)
+@section('meta_keywords', $product->seo_keywords)
+@section('meta_image', $product->image_url)
+@section('og_type', 'product')
 
 @section('content')
     <section class="container py-4 py-lg-5">
@@ -15,10 +18,10 @@
 
         <div class="row g-5">
             <div class="col-lg-6">
-                <img id="mainProductImage" src="{{ $product->image_url }}" class="img-fluid rounded border w-100" style="aspect-ratio:1/1;object-fit:cover" alt="{{ $product->name }}">
+                <img id="mainProductImage" src="{{ $product->image_url }}" class="img-fluid rounded border w-100" style="aspect-ratio:1/1;object-fit:cover" alt="{{ $product->image_alt }}">
                 <div class="d-flex gap-2 mt-3 flex-wrap">
                     @foreach ($product->images as $image)
-                        <img src="{{ str_starts_with($image->image_path, 'http') ? $image->image_path : asset('storage/'.$image->image_path) }}" class="gallery-thumb" alt="{{ $product->name }}" data-gallery-thumb="#mainProductImage">
+                        <img src="{{ \App\Support\Seo::url($image->image_path) }}" class="gallery-thumb" alt="{{ $image->alt }}" data-gallery-thumb="#mainProductImage">
                     @endforeach
                 </div>
             </div>

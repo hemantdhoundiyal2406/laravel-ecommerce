@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
+use App\Support\Seo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -25,7 +26,7 @@ class BannerController extends Controller
         $data['is_active'] = $request->boolean('is_active');
 
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('banners', 'public');
+            $data['image'] = Seo::storeImage($request->file('image'), 'banners');
         } elseif ($request->filled('image_url')) {
             $data['image'] = $request->image_url;
         }
@@ -49,7 +50,7 @@ class BannerController extends Controller
             if ($banner->image && ! str_starts_with($banner->image, 'http')) {
                 Storage::disk('public')->delete($banner->image);
             }
-            $data['image'] = $request->file('image')->store('banners', 'public');
+            $data['image'] = Seo::storeImage($request->file('image'), 'banners');
         } elseif ($request->filled('image_url')) {
             $data['image'] = $request->image_url;
         }

@@ -1,6 +1,8 @@
 @extends('layouts.frontend')
 
-@section('title', 'UrbanCart - Premium E-commerce Store')
+@section('title', \App\Models\Setting::getValue('seo_home_title', 'UrbanCart - Premium E-commerce Store'))
+@section('meta_description', \App\Models\Setting::getValue('seo_home_description', 'Shop premium fashion, electronics, home, beauty, and sports products online at UrbanCart.'))
+@section('meta_keywords', \App\Models\Setting::getValue('seo_home_keywords', 'online shopping, ecommerce, fashion, electronics, home products'))
 
 @section('content')
     <section>
@@ -8,7 +10,7 @@
             <div class="carousel-inner">
                 @forelse ($banners as $banner)
                     <div class="carousel-item @if($loop->first) active @endif">
-                        <div class="hero-slide" style="background-image: url('{{ $banner->image ?: asset('assets/images/product-placeholder.svg') }}')">
+                        <div class="hero-slide" style="background-image: url('{{ $banner->image_url }}')" role="img" aria-label="{{ $banner->image_alt }}">
                             <div class="container">
                                 <div class="hero-content">
                                     <span class="badge badge-soft mb-3">Modern Laravel Commerce</span>
@@ -23,7 +25,7 @@
                     </div>
                 @empty
                     <div class="carousel-item active">
-                        <div class="hero-slide" style="background-image: url('{{ asset('assets/images/product-placeholder.svg') }}')">
+                        <div class="hero-slide" style="background-image: url('{{ asset('assets/images/product-placeholder.svg') }}')" role="img" aria-label="UrbanCart">
                             <div class="container"><div class="hero-content"><h1 class="display-4">UrbanCart</h1></div></div>
                         </div>
                     </div>
@@ -46,7 +48,7 @@
             @foreach ($categories as $category)
                 <div class="col-6 col-md-4 col-lg">
                     <a class="category-tile d-block h-100 text-dark overflow-hidden" href="{{ route('products.index', ['category' => $category->slug]) }}">
-                        <img src="{{ str_starts_with($category->image ?? '', 'http') ? $category->image : ($category->image ? asset('storage/'.$category->image) : asset('assets/images/product-placeholder.svg')) }}" alt="{{ $category->name }}">
+                        <img src="{{ $category->image_url }}" alt="{{ $category->image_alt }}">
                         <div class="p-3">
                             <h3 class="h6 mb-1">{{ $category->name }}</h3>
                             <span class="small text-muted">{{ $category->products_count ?? $category->products()->count() }} products</span>

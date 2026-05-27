@@ -1,6 +1,8 @@
 @extends('layouts.frontend')
 
-@section('title', $title.' - UrbanCart')
+@section('title', $metaTitle)
+@section('meta_description', $metaDescription)
+@section('meta_keywords', $metaKeywords)
 
 @section('content')
     <section class="container py-4 py-lg-5">

@@ -1,6 +1,8 @@
 @extends('layouts.frontend')
 
-@section('title', 'Login - UrbanCart')
+@section('title', \App\Models\Setting::getValue('seo_login_title', 'Login - UrbanCart'))
+@section('meta_description', \App\Models\Setting::getValue('seo_login_description', 'Login to your UrbanCart customer account.'))
+@section('meta_keywords', \App\Models\Setting::getValue('seo_login_keywords', 'UrbanCart login, customer account'))
 
 @section('content')
     <section class="container py-5">

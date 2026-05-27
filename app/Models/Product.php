@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\Seo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -99,10 +100,13 @@ class Product extends Model
     {
         $image = $this->primaryImage?->image_path ?: $this->images->first()?->image_path;
 
-        if (! $image) {
-            return asset('assets/images/product-placeholder.svg');
-        }
+        return Seo::url($image);
+    }
 
-        return str_starts_with($image, 'http') ? $image : asset('storage/'.$image);
+    public function getImageAltAttribute(): string
+    {
+        $image = $this->primaryImage ?: $this->images->first();
+
+        return $image?->alt ?: Seo::imageAlt(null, $this->name);
     }
 }

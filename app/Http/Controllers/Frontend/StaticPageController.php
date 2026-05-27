@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Setting;
 
 class StaticPageController extends Controller
 {
@@ -22,6 +23,9 @@ class StaticPageController extends Controller
         return view('frontend.static.show', [
             'slug' => $page,
             'title' => $pages[$page],
+            'metaTitle' => Setting::getValue('seo_page_'.str_replace('-', '_', $page).'_title', $pages[$page].' - UrbanCart'),
+            'metaDescription' => Setting::getValue('seo_page_'.str_replace('-', '_', $page).'_description', 'Read '.$pages[$page].' information for UrbanCart customers.'),
+            'metaKeywords' => Setting::getValue('seo_page_'.str_replace('-', '_', $page).'_keywords'),
         ]);
     }
 }

@@ -1,6 +1,8 @@
 @extends('layouts.frontend')
 
-@section('title', 'Products - UrbanCart')
+@section('title', $metaTitle)
+@section('meta_description', $metaDescription)
+@section('meta_keywords', $metaKeywords)
 
 @section('content')
     <section class="container py-4 py-lg-5">
@@ -122,7 +124,7 @@
                         @foreach ($products as $product)
                             <div class="product-card p-3">
                                 <div class="row g-3 align-items-center">
-                                    <div class="col-4 col-md-3"><img src="{{ $product->image_url }}" class="img-fluid rounded" alt="{{ $product->name }}"></div>
+                                    <div class="col-4 col-md-3"><img src="{{ $product->image_url }}" class="img-fluid rounded" alt="{{ $product->image_alt }}"></div>
                                     <div class="col">
                                         <h2 class="h5"><a class="text-dark" href="{{ route('products.show', $product->slug) }}">{{ $product->name }}</a></h2>
                                         <p class="text-muted">{{ $product->short_description }}</p>

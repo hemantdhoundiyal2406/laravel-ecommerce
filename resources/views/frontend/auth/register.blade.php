@@ -1,6 +1,8 @@
 @extends('layouts.frontend')
 
-@section('title', 'Register - UrbanCart')
+@section('title', \App\Models\Setting::getValue('seo_register_title', 'Register - UrbanCart'))
+@section('meta_description', \App\Models\Setting::getValue('seo_register_description', 'Create your UrbanCart customer account for faster shopping and order tracking.'))
+@section('meta_keywords', \App\Models\Setting::getValue('seo_register_keywords', 'UrbanCart register, create account'))
 
 @section('content')
     <section class="container py-5">

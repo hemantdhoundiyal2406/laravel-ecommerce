@@ -1,6 +1,8 @@
 @extends('layouts.frontend')
 
-@section('title', 'Forgot Password - UrbanCart')
+@section('title', \App\Models\Setting::getValue('seo_forgot_password_title', 'Forgot Password - UrbanCart'))
+@section('meta_description', \App\Models\Setting::getValue('seo_forgot_password_description', 'Reset your UrbanCart account password.'))
+@section('meta_keywords', \App\Models\Setting::getValue('seo_forgot_password_keywords', 'forgot password, password reset'))
 
 @section('content')
     <section class="container py-5">

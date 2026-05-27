@@ -14,7 +14,7 @@
                 <tbody>
                 @forelse ($categories as $category)
                     <tr>
-                        <td><img class="thumb" src="{{ str_starts_with($category->image ?? '', 'http') ? $category->image : ($category->image ? asset('storage/'.$category->image) : asset('assets/images/product-placeholder.svg')) }}" alt="{{ $category->name }}"></td>
+                        <td><img class="thumb" src="{{ $category->image_url }}" alt="{{ $category->image_alt }}"></td>
                         <td>{{ $category->name }}</td>
                         <td>{{ $category->parent?->name ?: '-' }}</td>
                         <td><span class="badge {{ $category->is_active ? 'text-bg-success' : 'text-bg-secondary' }}">{{ $category->is_active ? 'Active' : 'Inactive' }}</span></td>

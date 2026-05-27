@@ -6,12 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
     public function index(Request $request)
     {
+        $selectedCategory = null;
+        $selectedBrands = collect();
         $query = Product::with(['category', 'brand', 'primaryImage', 'images', 'approvedReviews'])
             ->where('is_active', true);
 
@@ -25,13 +28,14 @@ class ProductController extends Controller
         }
 
         if ($request->filled('category')) {
-            $category = Category::where('slug', $request->category)->first();
-            if ($category) {
-                $query->where('category_id', $category->id);
+            $selectedCategory = Category::where('slug', $request->category)->first();
+            if ($selectedCategory) {
+                $query->where('category_id', $selectedCategory->id);
             }
         }
 
         if ($request->filled('brand')) {
+            $selectedBrands = Brand::whereIn('slug', (array) $request->brand)->get();
             $query->whereHas('brand', fn ($q) => $q->whereIn('slug', (array) $request->brand));
         }
 
@@ -74,6 +78,9 @@ class ProductController extends Controller
             'categories' => Category::where('is_active', true)->orderBy('name')->get(),
             'brands' => Brand::where('is_active', true)->orderBy('name')->get(),
             'viewMode' => $request->get('view', 'grid'),
+            'metaTitle' => $this->listingMetaTitle($selectedCategory, $selectedBrands),
+            'metaDescription' => $this->listingMetaDescription($selectedCategory, $selectedBrands),
+            'metaKeywords' => $selectedCategory?->seo_keywords ?: ($selectedBrands->count() === 1 ? $selectedBrands->first()->seo_keywords : Setting::getValue('seo_products_keywords')),
         ]);
     }
 
@@ -94,5 +101,35 @@ class ProductController extends Controller
             ->get();
 
         return view('frontend.product-detail', compact('product', 'related'));
+    }
+
+    private function listingMetaTitle(?Category $category, $brands): string
+    {
+        if ($category) {
+            return $category->seo_title ?: $category->name.' Products - UrbanCart';
+        }
+
+        if ($brands->count() === 1) {
+            $brand = $brands->first();
+
+            return $brand->seo_title ?: $brand->name.' Products - UrbanCart';
+        }
+
+        return Setting::getValue('seo_products_title', 'Products - UrbanCart');
+    }
+
+    private function listingMetaDescription(?Category $category, $brands): string
+    {
+        if ($category) {
+            return $category->seo_description ?: $category->description ?: 'Shop '.$category->name.' products online at UrbanCart.';
+        }
+
+        if ($brands->count() === 1) {
+            $brand = $brands->first();
+
+            return $brand->seo_description ?: 'Shop '.$brand->name.' products online at UrbanCart.';
+        }
+
+        return Setting::getValue('seo_products_description', 'Shop latest fashion, electronics, home, beauty, and sports products online.');
     }
 }
